@@ -1,0 +1,180 @@
+@import "../vendor/bulma.min.css";
+@import "../vendor/bulma-calendar.min.css";
+@import "../vendor/bulma-list.min.css";
+@import "../vendor/bulma-tooltip.min.css";
+@import "../vendor/fontawesome.min.css";
+@import "../vendor/brands.min.css";
+@import "../vendor/solid.min.css";
+
+:root {
+  background-color: #eff1f4;
+}
+
+main > .page-title {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+main > nav.breadcrumb {
+  margin-top: 1rem;
+  margin-bottom: 0rem !important;
+}
+
+nav + .page-title {
+  margin-top: 0;
+}
+
+main > .page-title > h1 {
+  flex-grow: 1;
+  font-size: 2rem;
+  display: block;
+  width: auto;
+}
+
+main > .flash {
+  margin-top: 1rem;
+}
+
+.navbar-brand .navbar-item span {
+  cursor: default;
+}
+
+.item-state {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.4rem;
+  font-weight: 900;
+  color: white;
+  border-radius: 0.25rem;
+}
+
+table.item-attributes {
+  width: 100%;
+  height: auto;
+}
+
+table.item-attributes tr:not(:last-of-type) td {
+  padding-bottom: 0.5rem;
+}
+
+table.item-attributes td:first-of-type {
+  width: 5rem;
+  color: lightslategrey;
+}
+
+table.item-info {
+  width: 100%;
+  height: auto;
+}
+
+table.item-info tr:not(:last-of-type) td {
+  padding-bottom: 0.5rem;
+}
+
+table.item-info td:first-of-type {
+  width: 9rem;
+  color: lightslategrey;
+}
+
+.item-quick-actions {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.item-quick-actions .button {
+  background-color: rgb(213, 218, 222);
+}
+
+.item-quick-actions .button:hover {
+  background-color: rgb(198, 205, 211);
+}
+
+.item-quick-actions div.field:not(:last-of-type) {
+  padding-right: 0.8rem;
+}
+
+.item-data hr {
+  margin: 0.35rem 0;
+  background-color: rgb(213, 218, 222);
+}
+
+.modal form .field .control select {
+  width: 100%;
+}
+
+.invalid-feedback {
+  color: hsl(348, 100%, 61%);
+}
+
+.list-item .list-item-title {
+  display: flex;
+  flex-direction: row;
+}
+
+.item-type {
+  font-size: 1rem;
+  color: white;
+  background: hsl(0, 0%, 48%);
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.25rem;
+}
+
+.item-type.bug {
+  background: #e96c53;
+  font-size: 0.6rem;
+}
+
+.item-type.task, .item-type.subtask {
+  background: #3e8ed0;
+}
+
+.item-type.subtask {
+  font-size: 0.8rem;
+}
+
+.item-type.story {
+  background: #7ec15a;
+  font-size: 0.86rem;
+}
+
+.item-type.epic {
+  background: #a476ea;
+}
+
+.item-priority {
+  font-size: 1rem;
+  color: hsl(0, 0%, 48%);
+  padding: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.25rem;
+}
+
+.item-priority.urgent {
+  color: hsl(348, 100%, 61%);
+}
+
+.item-priority.high {
+  color: #e97e53;
+}
+
+.item-priority.normal {
+  color: #e9b253;
+}
+
+.item-priority.low {
+  background: #3e8ed0;
+}

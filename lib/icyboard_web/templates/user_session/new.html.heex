@@ -1,0 +1,58 @@
+<div class="page-title">
+  <h1>Log in</h1>
+</div>
+
+<.form let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user}>
+  <%= if @error_message do %>
+    <div class="message is-danger">
+      <div class="message-body">
+        <%= @error_message %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= label f, :email, class: "label" %>
+    <p class="control has-icons-left">
+      <%= email_input f, :email, required: true, class: "input" %>
+      <span class="icon is-small is-left">
+        <i class="fa-solid fa-user"></i>
+      </span>
+    </p>
+  </div>
+
+  <div class="field">
+    <%= label f, :password, class: "label" %>
+    <p class="control has-icons-left">
+      <%= password_input f, :password, required: true, class: "input" %>
+      <span class="icon is-small is-left">
+        <i class="fa-solid fa-key"></i>
+      </span>
+    </p>
+  </div>
+
+  <div class="field">
+    <%= label f, :remember_me, class: "checkbox" do %>
+      <%= checkbox f, :remember_me %>
+      Keep me logged in for 60 days
+    <% end %>
+    <p class="control">
+    </p>
+  </div>
+
+  <div class="field">
+    <%= submit class: "button is-success" do %>
+      <span class="icon is-small is-left">
+        <i class="fa-solid fa-right-to-bracket"></i>
+      </span>
+      <span>
+        Log in
+      </span>
+    <% end %>
+  </div>
+</.form>
+
+<p>
+  <%= link "Register", to: Routes.user_registration_path(@conn, :new) %> |
+  <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new) %>
+</p>

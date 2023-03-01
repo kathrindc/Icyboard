@@ -1,0 +1,226 @@
+<%= if @live_action in [:add, :edit] do %>
+    <.modal return_to={Routes.item_show_path(@socket, :show, @item.code)}>
+        <.live_component
+            module={IcyboardWeb.ItemLive.ItemForm}
+            id={@item.code || :new}
+            title={@page_title}
+            action={@live_action}
+            return_to={Routes.item_show_path(@socket, :show, @item.code)}
+            user={@user}
+            item={@item} />
+    </.modal>
+<% end %>
+<%= if @live_action == :clone do %>
+    <.modal return_to={Routes.item_show_path(@socket, :show, @item.code)}>
+        <.live_component
+            module={IcyboardWeb.ItemLive.CloneForm}
+            id={@item.code}
+            title={@page_title}
+            return_to={Routes.item_show_path(@socket, :show, @item.code)}
+            user={@user}
+            original={@item} />
+    </.modal>
+<% end %>
+<%= if @live_action == :delete do %>
+    <.modal return_to={Routes.item_show_path(@socket, :show, @item.code)}>
+        <.live_component
+            module={IcyboardWeb.ItemLive.DeleteConfirm}
+            return_to={Routes.project_show_path(@socket, :show, @item.project)}
+            id={@item.code}
+            item={@item} />
+    </.modal>
+<% end %>
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li>
+            <%= live_redirect "Projects", to: Routes.project_index_path(@socket, :index) %>
+        </li>
+        <li>
+            <%= live_redirect @project.name, to: Routes.project_show_path(@socket, :show, @project.code) %>
+        </li>
+        <%= if @epic != nil do %>
+            <li>
+                <%= live_patch @epic.code, to: Routes.item_show_path(@socket, :show, @epic.code) %>
+            </li>
+        <% end %>
+        <%= if @parent != nil do %>
+            <li>
+                <%= live_patch "#{@parent.code} #{@parent.title}", to: Routes.item_show_path(@socket, :show, @parent.code) %>
+            </li>
+        <% end %>
+        <li class="is-active">
+            <a aria-current="page"><%= @item.code %></a>
+        </li>
+    </ul>
+</nav>
+<div class="page-title">
+    <h1 class="mt-0 is-size-3">
+        <%= @item.title %>
+    </h1>
+</div>
+
+<div class="item-quick-actions">
+    <div class="field has-addons">
+        <p class="control">
+            <%= live_patch to: Routes.item_show_path(@socket, :edit, @item.code), class: "button is-light" do %>
+                <span class="icon is-small">
+                    <i class="fa-solid fa-edit"></i>
+                </span>
+                <span>
+                    Edit
+                </span>
+            <% end %>
+        </p>
+        <p class="control">
+            <button class="button is-light">
+                <span class="icon is-small">
+                    <i class="fa-solid fa-comment"></i>
+                </span>
+                <span>
+                    Comment
+                </span>
+            </button>
+        </p>
+    </div>
+    <div class="field has-addons">
+        <p class="control">
+            <button class="button is-light" phx-click="change_state" value="todo">
+                <span>To Do</span>
+            </button>
+        </p>
+        <p class="control">
+            <button class="button is-light" phx-click="change_state" value="active">
+                <span>In Progress</span>
+            </button>
+        </p>
+        <p class="control">
+            <button class="button is-light" phx-click="change_state" value="done">
+                <span>Done</span>
+            </button>
+        </p>
+    </div>
+    <div class="is-flex-grow-1"></div>
+    <div class="field">
+        <p class="control">
+            <%= live_patch to: Routes.item_show_path(@socket, :add, @item.code), class: "button is-light" do %>
+                <span class="icon is-small">
+                    <i class="fa-solid fa-add"></i>
+                </span>
+            <% end %>
+        </p>
+    </div>
+    <div class="field">
+        <p class="control">
+            <button class="button is-light">
+                <span class="icon is-small">
+                    <i class="fa-solid fa-share"></i>
+                </span>
+            </button>
+        </p>
+    </div>
+    <div class="field">
+        <p class="control">
+            <.dropdown_menu id="more-options" icon="ellipsis">
+                <%= live_patch "Clone", to: Routes.item_show_path(@socket, :clone, @item.code), class: "dropdown-item" %>
+                <%= live_patch "Edit", to: Routes.item_show_path(@socket, :add, @item.code), class: "dropdown-item" %>
+                <div class="dropdown-divider"></div>
+                <%= live_patch "Delete", to: Routes.item_show_path(@socket, :delete, @item.code), class: "dropdown-item has-text-danger" %>
+            </.dropdown_menu>
+        </p>
+    </div>
+</div>
+
+<div class="item-data tile is-ancestor">
+    <div class="tile is-parent is-vertical">
+        <div class="tile is-parent">
+            <div class="tile is-child">
+                <table class="item-attributes">
+                    <tr>
+                        <td>Type</td>
+                        <td class="is-flex is-flex-direction-row">
+                            <.pretty_item_type value={@item.type} />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Type</td>
+                        <td class="is-flex is-flex-direction-row">
+                            <.pretty_item_priority value={@item.priority} />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Epic</td>
+                        <td><%= @item.epic %></td>
+                    </tr>
+                    <tr>
+                        <td>Parent</td>
+                        <td><%= @item.parent %></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="tile is-child">
+                <table class="item-attributes">
+                    <tr>
+                        <td>Status</td>
+                        <td>
+                            <.state_badge value={@item.state} />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <hr/>
+        <div class="tile is-parent is-vertical">
+            <b>Description</b>
+            <br/>
+            <%= @item.description || "no description" %>
+        </div>
+        <%= if length(@subitems) > 0 do %>
+            <hr/>
+            <div class="tile is-parent is-vertical">
+                <b>
+                    <%= if @item.type == :epic, do: "Items in this epic", else: "Sub-items" %>
+                </b>
+                <br/>
+                <div class="list has-visible-pointer-controls">
+                    <%= for sub <- @subitems do %>
+                        <%= live_patch to: Routes.item_show_path(@socket, :show, sub.code), class: "list-item" do %>
+                            <div class="list-item-content">
+                                <div class="list-item-title">
+                                    <.type_badge value={sub.type} />
+                                    <%= sub.title %>
+                                </div>
+                                <div class="list-item-description">
+                                    <%= sub.code %>
+                                </div>
+                            </div>
+                            <div class="list-item-controls">
+                                <.state_badge value={sub.state} />
+                            </div>
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>
+        <% end %>
+    </div>
+    <div class="tile is-child is-4 p-4">
+        <table class="item-info">
+            <tr>
+                <td>Reported by:</td>
+                <td>
+                    <%= if @reporter do %>
+                        <%= @reporter.display_name %>
+                    <% end %>
+                </td>
+            </tr>
+            <tr>
+                <td>Last changed by:</td>
+                <td>
+                    <%= if @updater do %>
+                        <%= @updater.display_name %>
+                    <% end %>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

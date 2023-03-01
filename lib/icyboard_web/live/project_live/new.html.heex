@@ -1,0 +1,29 @@
+<h1 class="mt-2 is-size-3">New project</h1>
+
+<.form let={f} for={@changeset} id="project-form"
+       phx-change="validate" phx-submit="save">
+    <div class="field">
+        <%= label f, :code, class: "label" %>
+        <p class="control">
+            <%= text_input f, :code, class: "input" %>
+        </p>
+        <%= error_tag f, :code %>
+    </div>
+    <div class="field">
+        <%= label f, :name, class: "label" %>
+        <p class="control">
+            <%= text_input f, :name, class: "input" %>
+        </p>
+        <%= error_tag f, :name %>
+    </div>
+    <div class="field">
+        <%= submit class: "button is-success", phx_disable_with: "Saving..." do %>
+            <span class="icon is-small">
+                <i class="fa-solid fa-save"></i>
+            </span>
+            <span>
+                Create
+            </span>
+        <% end %>
+    </div>
+</.form>

@@ -1,0 +1,77 @@
+<div class="box">
+    <h2 class="mt-2 is-size-5"><%= @title %></h2>
+
+    <.form let={f} for={@changeset} id="item-form"
+        phx-target={@myself} phx-change="validate" phx-submit="save">
+        <%= hidden_input f, :code %>
+        <%= hidden_input f, :reported_by %>
+        <%= hidden_input f, :updated_by %>
+        <div class="field">
+            <%= label f, :type, class: "label" %>
+            <p class="control">
+                <%= select f, :type, [
+                    [key: "Task", value: :task],
+                    [key: "Story", value: :story],
+                    [key: "Epic", value: :epic],
+                    [key: "Bug", value: :bug],
+                    [key: "Sub-task", value: :subtask]
+                ], class: "select", disabled: @item.type == :epic %>
+            </p>
+            <%= error_tag f, :type %>
+        </div>
+        <div class="field">
+            <%= label f, :project, class: "label" %>
+            <p class="control">
+                <%= select f, :project, Enum.map(@projects, fn p ->
+                    [key: p.name, value: p.code]
+                end), class: "select", disabled: @action != :add %>
+            </p>
+            <%= error_tag f, :project %>
+        </div>
+        <div class="field">
+            <%= label f, :title, class: "label" %>
+            <p class="control">
+                <%= text_input f, :title, class: "input", autocomplete: "off" %>
+            </p>
+            <%= error_tag f, :title %>
+        </div>
+        <div class="field">
+            <%= label f, :description, class: "label" %>
+            <p class="control">
+                <%= textarea f, :description, class: "textarea" %>
+            </p>
+            <%= error_tag f, :description %>
+        </div>
+        <div class="field">
+            <%= label f, :epic, class: "label" %>
+            <p class="control">
+                <%= select f, :epic, [[key: "", value: ""]] ++ Enum.map(@epics, fn e ->
+                    [key: e.title, value: e.code]
+                end), class: "select" %>
+            </p>
+            <%= error_tag f, :epic %>
+        </div>
+        <div class="field">
+            <%= label f, :priority, class: "label" %>
+            <p class="control">
+                <%= select f, :priority, [
+                    [key: "Low", value: :low],
+                    [key: "Normal", value: :normal],
+                    [key: "High", value: :high],
+                    [key: "Urgent", value: :urgent]
+                ], class: "select" %>
+            </p>
+            <%= error_tag f, :priority %>
+        </div>
+        <div class="field">
+            <%= submit phx_disable_with: "Saving...", class: "button is-success" do %>
+                <span class="icon is-small">
+                    <i class="fa-solid fa-save"></i>
+                </span>
+                <span>
+                    Add
+                </span>
+            <% end %>
+        </div>
+    </.form>
+</div>

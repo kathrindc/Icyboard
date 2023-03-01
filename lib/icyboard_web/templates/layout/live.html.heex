@@ -1,0 +1,30 @@
+<main class="container">
+  <% info = live_flash(@flash, :info) %>
+  <%= if info do %>
+    <div class="flash message is-info" phx-click="lv:clear-flash" phx-value-key="info">
+      <div class="message-body">
+        <%= info %>
+      </div>
+    </div>
+  <% end %>
+
+  <% success = live_flash(@flash, :success) %>
+  <%= if success do %>
+    <div class="flash message is-success" phx-click="lv:clear-flash" phx-value-key="success">
+      <div class="message-body">
+        <%= success %>
+      </div>
+    </div>
+  <% end %>
+
+  <% error = live_flash(@flash, :error) %>
+  <%= if error do %>
+    <div class="flash message is-danger" phx-click="lv:clear-flash" phx-value-key="error">
+      <div class="message-body">
+        <%= error %>
+      </div>
+    </div>
+  <% end %>
+
+  <%= @inner_content %>
+</main>

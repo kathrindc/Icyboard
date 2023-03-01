@@ -1,0 +1,17 @@
+<div class="box">
+    <h2 class="mt-2 is-size-5">Clone Item</h2>
+
+    <.form let={f} for={@changeset} id="clone-form"
+        phx-target={@myself} phx-change="validate" phx-submit="save">
+        <div class="field">
+            <%= label f, :title, class: "label" %>
+            <p class="control">
+                <%= text_input f, :title, class: "input" %>
+            </p>
+            <%= error_tag f, :title %>
+        </div>
+        <div class="field">
+            <%= submit "Clone", phx_disable_with: "Cloning...", class: "button is-success" %>
+        </div>
+    </.form>
+</div>

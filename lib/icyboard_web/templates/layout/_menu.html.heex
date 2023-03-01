@@ -1,0 +1,64 @@
+<nav class="navbar is-info" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <div class="navbar-item">
+            <span class="icon is-small">
+                <i class="fa-solid fa-snowflake" aria-hidden="true"></i>
+                &nbsp;
+            </span>
+            <span>
+                Icyboard
+            </span>
+        </div>
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMain">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+    <div id="navMain" class="navbar-menu">
+        <div class="navbar-start">
+            <%= if @current_user do %>
+                <%= live_redirect to: Routes.dashboard_path(@conn, :index), class: "navbar-item" do %>
+                    Dashboard
+                <% end %>
+                <%= live_redirect to: Routes.project_index_path(@conn, :index), class: "navbar-item" do %>
+                    Projects
+                <% end %>
+                <a class="navbar-item">
+                    Time
+                </a>
+                <a class="navbar-item">
+                    Boards
+                </a>
+            <% end %>
+        </div>
+        <div class="navbar-end">
+            <%= if @current_user do %>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        <%= if @current_user.display_name, do: @current_user.display_name, else: @current_user.email %>
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <%= if @current_user.display_name do %>
+                            <div class="navbar-item"><%= @current_user.email %></div>
+                        <% end %>
+                        <%= link "Settings", to: Routes.user_settings_path(@conn, :edit), class: "navbar-item" %>
+                        <%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "navbar-item" %>
+                    </div>
+                </div>
+            <% else %>
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <%= link to: Routes.user_registration_path(@conn, :new), class: "button is-primary" do %>
+                            <strong>Sign up</strong>
+                        <% end %>
+                        <%= link to: Routes.user_session_path(@conn, :new), class: "button is-light" do %>
+                            Log in
+                        <% end %>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</nav>

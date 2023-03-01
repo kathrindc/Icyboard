@@ -1,0 +1,53 @@
+<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <%= live_redirect "Projects", to: Routes.project_index_path(@socket, :index) %>
+    </li>
+    <li class="is-active">
+      <a aria-current="page"><%= @project.name %></a>
+    </li>
+  </ul>
+</nav>
+<div class="page-title">
+  <h1><%= @project.name %></h1>
+  <%= live_patch to: Routes.project_show_path(@socket, :add, @project.code), class: "button is-success" do %>
+    <span class="icon is-small">
+      <i class="fa-solid fa-add"></i>
+    </span>
+    <span>
+      Add item
+    </span>
+  <% end %>
+</div>
+
+<%= if @live_action in [:add] do %>
+  <.modal return_to={Routes.project_show_path(@socket, :show, @project.code)}>
+    <.live_component
+      module={IcyboardWeb.ItemLive.ItemForm}
+      id={@project.code || :new}
+      title={"Add Item"}
+      action={@live_action}
+      return_to={Routes.project_show_path(@socket, :show, @project.code)}
+      user={@user}
+      item={%Icyboard.Parts.Item{code: "#{@project.code}-0000", project: @project.code}}/>
+  </.modal>
+<% end %>
+
+<div class="list has-visible-pointer-controls">
+  <%= for item <- @items do %>
+    <%= live_redirect to: Routes.item_show_path(@socket, :show, item.code), class: "list-item" do %>
+      <div class="list-item-content">
+        <div class="list-item-title">
+          <.type_badge value={item.type} />
+          <%= item.title %>
+        </div>
+        <div class="list-item-description">
+          <%= item.code %>
+        </div>
+      </div>
+      <div class="list-item-controls">
+        <.state_badge value={item.state} />
+      </div>
+    <% end %>
+  <% end %>
+</div>
