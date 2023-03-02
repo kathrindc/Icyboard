@@ -204,7 +204,7 @@ defmodule Icyboard.Parts do
 
   def update_item(%Item{} = item, attrs, user_id) do
     item
-    |> Item.changeset(%{attrs | updated_by: user_id})
+    |> Item.changeset(%{attrs | "updated_by" => user_id})
     |> Repo.update()
   end
 
