@@ -202,6 +202,24 @@ defmodule Icyboard.Parts do
     end
   end
 
+  def clone_item(original = %Item{}, attrs = %{}, user_id) do
+    cloned_attrs = %{
+      "code" => "",
+      "project" => original.project,
+      "title" => attrs["title"],
+      "description" => original.description,
+      "type" => original.type,
+      "state" => :todo,
+      "priority" => original.priority,
+      "parent" => original.parent,
+      "epic" => original.epic,
+      "reported_by" => user_id,
+      "updated_by" => user_id,
+    }
+
+    create_item(cloned_attrs, user_id)
+  end
+
   def update_item(%Item{} = item, attrs, user_id) do
     item
     |> Item.changeset(%{attrs | "updated_by" => user_id})

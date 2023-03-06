@@ -19,7 +19,7 @@ defmodule IcyboardWeb.ItemLive.CloneForm do
   @impl true
   def handle_event("validate", %{"item" => item_params}, socket) do
     changeset = socket.assigns.item
-    |> Item.title_changeset item_params
+    |> Item.title_changeset(item_params)
     |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -28,11 +28,11 @@ defmodule IcyboardWeb.ItemLive.CloneForm do
   @impl true
   def handle_event("save", %{"item" => item_params}, socket) do
     case Parts.clone_item(socket.assigns.original, item_params, socket.assigns.user.id) do
-      {:ok, _} ->
+      {:ok, item} ->
         {:noreply,
          socket
          |> put_flash(:success, "Item cloned successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+         |> push_redirect(to: Routes.item_show_path(socket, :show, item.code))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
